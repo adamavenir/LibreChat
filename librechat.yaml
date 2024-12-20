@@ -23,7 +23,6 @@ endpoints:
 server:
   port: 3080
   host: "0.0.0.0"
-  mongoUri: "mongodb://127.0.0.1:27017/LibreChat"
   debug:
     logging: true
     console: false

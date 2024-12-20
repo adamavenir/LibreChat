@@ -52,7 +52,7 @@ services:
     image: mongo
     restart: always
     volumes:
-      - ./data-node:/data/db
+      - mongodb_data:/data/db
     command: mongod --noauth
   meilisearch:
     container_name: chat-meilisearch
@@ -107,5 +107,6 @@ services:
       - "23004:23004"
 
 volumes:
+  mongodb_data:
   pgdata2:
   mcp_git_data:
