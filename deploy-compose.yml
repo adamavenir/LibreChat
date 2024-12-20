@@ -4,7 +4,7 @@ services:
     image: ghcr.io/danny-avila/librechat-dev-api:latest
     container_name: LibreChat-API
     ports:
-      - 80:3080
+      - ${PORT:-3080}:3080
     depends_on:
       - mongodb
       - mcp-fetch
@@ -24,6 +24,8 @@ services:
       - RAG_API_URL=http://rag_api:8000
       - PORT=3080
       - RAG_ENABLED=true
+      - DOMAIN_CLIENT=${DOMAIN:-https://welp.lol}
+      - DOMAIN_SERVER=${DOMAIN:-https://welp.lol}
     volumes:
       - ./images:/app/client/public/images
       - ./logs:/app/api/logs
@@ -32,8 +34,10 @@ services:
     image: nginx:1.27.0-alpine
     container_name: LibreChat-NGINX
     ports:
-      - 80:80
+      - ${PORT:-80}:80
       - 443:443
+    environment:
+      - DOMAIN=${DOMAIN:-https://welp.lol}
     depends_on:
       - api
     restart: always
