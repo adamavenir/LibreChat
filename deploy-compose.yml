@@ -25,11 +25,12 @@ services:
       - MONGO_URI=mongodb://mongodb:27017/LibreChat
       - MEILI_HOST=http://meilisearch:7700
       - RAG_PORT=${RAG_PORT:-8000}
-      - RAG_API_URL=http://rag_api:${RAG_PORT:-8000}
+      - RAG_API_URL=http://rag_api:8000
       - PORT=3080
+      - RAG_ENABLED=true
     volumes:
       - type: bind
-        source: ./librechat.yaml
+        source: ${PWD}/librechat.yaml
         target: /app/librechat.yaml
       - ./images:/app/client/public/images
       - ./logs:/app/api/logs
@@ -67,23 +68,13 @@ services:
       - MEILI_NO_ANALYTICS=true
     volumes:
       - ./meili_data_v1.7:/meili_data
-  vectordb:
-    image: ankane/pgvector:latest
-    environment:
-      POSTGRES_DB: mydatabase
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
-    restart: always
-    volumes:
-      - pgdata2:/var/lib/postgresql/data
   rag_api:
     image: ghcr.io/danny-avila/librechat-rag-api-dev-lite:latest
     environment:
-      - DB_HOST=vectordb
+      - DATABASE_URL=${DATABASE_URL}
       - RAG_PORT=${RAG_PORT:-8000}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
     restart: always
-    depends_on:
-      - vectordb
     env_file:
       - .env
   mcp-fetch:
@@ -105,8 +96,14 @@ services:
       - GITHUB_PERSONAL_ACCESS_TOKEN=${GITHUB_PERSONAL_ACCESS_TOKEN}
     ports:
       - "23004:23004"
+  db-init:
+    image: postgres:latest
+    command: psql "$DATABASE_URL" -c 'CREATE EXTENSION IF NOT EXISTS vector;'
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+    depends_on:
+      - rag_api
 
 volumes:
   mongodb_data:
-  pgdata2:
   mcp_git_data:

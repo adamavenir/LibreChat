@@ -36,6 +36,17 @@ server:
   session:
     expiry: 900000  # 15 minutes
     refreshTokenExpiry: 604800000  # 7 days
+  rag:
+    enabled: true
+    useFullContext: true
+    openAIApiKey: "${OPENAI_API_KEY}"
+    embeddings:
+      provider: "openai"
+      model: "text-embedding-3-small"
+    port: 8000
+    api:
+      url: "http://rag_api:8000"
+      key: "${OPENAI_API_KEY}"
 
 mcp:
   servers:
