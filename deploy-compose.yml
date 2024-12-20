@@ -8,7 +8,7 @@ services:
     image: ghcr.io/danny-avila/librechat-dev-api:latest
     container_name: LibreChat-API
     ports:
-      - 3080:3080
+      - 80:3080
     depends_on:
       - mongodb
       - mcp-fetch
@@ -26,6 +26,7 @@ services:
       - MEILI_HOST=http://meilisearch:7700
       - RAG_PORT=${RAG_PORT:-8000}
       - RAG_API_URL=http://rag_api:${RAG_PORT:-8000}
+      - PORT=3080
     volumes:
       - type: bind
         source: ./librechat.yaml
