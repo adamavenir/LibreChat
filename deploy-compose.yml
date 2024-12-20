@@ -1,10 +1,6 @@
 version: "3.8"
 services:
   api:
-    # build:
-    #   context: .
-    #   dockerfile: Dockerfile.multi
-    #   target: api-build
     image: ghcr.io/danny-avila/librechat-dev-api:latest
     container_name: LibreChat-API
     ports:
@@ -29,9 +25,6 @@ services:
       - PORT=3080
       - RAG_ENABLED=true
     volumes:
-      - type: bind
-        source: ${PWD}/librechat.yaml
-        target: /app/librechat.yaml
       - ./images:/app/client/public/images
       - ./logs:/app/api/logs
 
