@@ -11,7 +11,9 @@ services:
       - 3080:3080
     depends_on:
       - mongodb
-      - rag_api
+      - mcp-fetch
+      - mcp-git
+      - mcp-github
     restart: always
     extra_hosts:
     - "host.docker.internal:host-gateway"
@@ -83,6 +85,26 @@ services:
       - vectordb
     env_file:
       - .env
+  mcp-fetch:
+    image: node:18
+    command: npx -y uvx mcp-server-fetch
+    ports:
+      - "23002:23002"
+  mcp-git:
+    image: node:18
+    command: npx -y uvx mcp-server-git --repository /app/repo
+    volumes:
+      - mcp_git_data:/app/repo
+    ports:
+      - "23003:23003"
+  mcp-github:
+    image: node:18
+    command: npx -y @modelcontextprotocol/server-github
+    environment:
+      - GITHUB_PERSONAL_ACCESS_TOKEN=${GITHUB_PERSONAL_ACCESS_TOKEN}
+    ports:
+      - "23004:23004"
 
 volumes:
   pgdata2:
+  mcp_git_data:
