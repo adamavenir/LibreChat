@@ -26,6 +26,10 @@ services:
       - RAG_ENABLED=true
       - DOMAIN_CLIENT=${DOMAIN:-https://welp.lol}
       - DOMAIN_SERVER=${DOMAIN:-https://welp.lol}
+      - ALLOW_REGISTRATION=true
+      - ALLOW_EMAIL_LOGIN=true
+      - ALLOW_UNVERIFIED_EMAIL_LOGIN=true
+      - ALLOW_SOCIAL_LOGIN=false
     volumes:
       - ./images:/app/client/public/images
       - ./logs:/app/api/logs
