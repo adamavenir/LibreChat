@@ -30,6 +30,8 @@ services:
       - ALLOW_EMAIL_LOGIN=true
       - ALLOW_UNVERIFIED_EMAIL_LOGIN=true
       - ALLOW_SOCIAL_LOGIN=false
+      - SESSION_EXPIRY=900000
+      - REFRESH_TOKEN_EXPIRY=604800000
     volumes:
       - ./images:/app/client/public/images
       - ./logs:/app/api/logs

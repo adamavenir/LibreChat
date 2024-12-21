@@ -1,15 +1,15 @@
 version: 1.1.5
 
 endpoints:
-  openAI:
-    apiKey: "${OPENAI_API_KEY}"
-    models:
-      default: ["o1", "o1-2024-12-17", "o1-mini", "chatgpt-4o-latest"]
-      fetch: false
   anthropic:
     apiKey: "${ANTHROPIC_API_KEY}"
     models:
       default: ["claude-3-sonnet-latest", "claude-3-opus-latest", "claude-3-haiku-latest"]
+      fetch: false
+  openAI:
+    apiKey: "${OPENAI_API_KEY}"
+    models:
+      default: ["o1", "o1-2024-12-17", "o1-mini", "chatgpt-4o-latest"]
       fetch: false
   google:
     apiKey: "${GOOGLE_KEY}"
